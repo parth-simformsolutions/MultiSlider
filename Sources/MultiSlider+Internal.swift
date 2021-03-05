@@ -195,7 +195,27 @@ extension MultiSlider {
         } else {
             labelValue = value[i]
         }
-        valueLabels[i].text = valueLabelFormatter.string(from: NSNumber(value: Double(labelValue)))
+        if isDateFormat {
+            valueLabels[i].text = getTime(Int(labelValue))
+            defaultValues[i] = labelValue
+        } else {
+            valueLabels[i].text = "\(Int(labelValue))"
+        }
+    }
+    
+    func getTime(_ timeValue: Int) -> String {
+        var components = DateComponents()
+        components.hour = timeValue
+        components.timeZone = .current
+        
+        let calendar = Calendar(identifier: .gregorian)
+        let date = calendar.date(from: components) ?? Date()
+        let formatter = DateFormatter()
+        formatter.locale = Locale(identifier: "en_US_POSIX")
+        formatter.dateFormat = "h:mm a"
+        formatter.amSymbol = "AM"
+        formatter.pmSymbol = "PM"
+        return formatter.string(from: date)
     }
 
     func updateAllValueLabels() {

@@ -195,6 +195,19 @@ open class MultiSlider: UIControl {
             }
         }
     }
+    
+    @objc open dynamic var valueLabelDateFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        return formatter
+    }() {
+        didSet {
+            updateAllValueLabels()
+            if #available(iOS 11.0, *) {
+                oldValue.removeObserverForAllProperties(observer: self)
+                valueLabelDateFormatter.addObserverForAllProperties(observer: self)
+            }
+        }
+    }
 
     // MARK: - Subviews
 
@@ -211,6 +224,8 @@ open class MultiSlider: UIControl {
     let panGestureView = UIView()
     let margin: CGFloat = 32
     var isSettingValue = false
+    open var isDateFormat = false
+    open var defaultValues: [CGFloat] = [0,0]
     lazy var defaultThumbImage: UIImage? = .circle()
     var selectionFeedbackGenerator = AvailableHapticFeedback()
 
@@ -261,6 +276,7 @@ open class MultiSlider: UIControl {
     deinit {
         if #available(iOS 11.0, *) {
             valueLabelFormatter.removeObserverForAllProperties(observer: self)
+            valueLabelDateFormatter.removeObserverForAllProperties(observer: self)
         }
     }
 
