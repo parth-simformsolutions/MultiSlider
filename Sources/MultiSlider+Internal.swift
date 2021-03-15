@@ -205,9 +205,13 @@ extension MultiSlider {
     
     func getTime(_ timeValue: Int) -> String {
         var components = DateComponents()
-        components.hour = timeValue
+        if timeValue == 24 {
+            components.hour = 23
+            components.minute = 59
+        } else {
+            components.hour = timeValue
+        }
         components.timeZone = .current
-        
         let calendar = Calendar(identifier: .gregorian)
         let date = calendar.date(from: components) ?? Date()
         let formatter = DateFormatter()
