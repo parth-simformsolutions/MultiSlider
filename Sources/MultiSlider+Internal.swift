@@ -199,7 +199,7 @@ extension MultiSlider {
             valueLabels[i].text = getTime(Float(labelValue))
             defaultValues[i] = labelValue
         } else {
-            valueLabels[i].text = "\(Float(labelValue))"
+            valueLabels[i].text = "\(Int(labelValue))"
         }
     }
     
