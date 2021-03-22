@@ -196,20 +196,20 @@ extension MultiSlider {
             labelValue = value[i]
         }
         if isDateFormat {
-            valueLabels[i].text = getTime(Int(labelValue))
+            valueLabels[i].text = getTime(Float(labelValue))
             defaultValues[i] = labelValue
         } else {
-            valueLabels[i].text = "\(Int(labelValue))"
+            valueLabels[i].text = "\(Float(labelValue))"
         }
     }
     
-    func getTime(_ timeValue: Int) -> String {
+    func getTime(_ timeValue: Float) -> String {
         var components = DateComponents()
-        if timeValue == 24 {
+        if timeValue > 23 {
             components.hour = 23
             components.minute = 59
         } else {
-            components.hour = timeValue
+            components.hour = Int(timeValue)
         }
         components.timeZone = .current
         let calendar = Calendar(identifier: .gregorian)
